@@ -1,0 +1,64 @@
+:root {
+    --sidebar-bg: #212529;
+    --sidebar-hover: #343a40;
+    --content-bg: #f8f9fa;
+    --danger-soft: #f8d7da;
+    --danger-text: #842029;
+}
+
+body {
+    background-color: var(--content-bg);
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+    min-height: 100vh;
+    color: white;
+    padding-top: 20px;
+}
+
+.sidebar .nav-link {
+    color: #ced4da;
+    border-radius: 5px;
+    margin: 5px 15px;
+    padding: 12px;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background-color: var(--sidebar-hover);
+    color: white;
+}
+
+.main-content {
+    padding: 30px;
+}
+
+.low-attendance {
+    background-color: var(--danger-soft) !important;
+    color: var(--danger-text) !important;
+}
+
+.academic-card {
+    border-left: 5px solid #0d6efd;
+    transition: 0.3s;
+}
+
+.semester-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.stat-bar {
+    height: 10px;
+    border-radius: 5px;
+}
+
+.upload-area {
+    border: 2px dashed #dee2e6;
+    padding: 40px;
+    text-align: center;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+}

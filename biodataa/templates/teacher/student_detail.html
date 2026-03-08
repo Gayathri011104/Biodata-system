@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center p-4">
+            <div class="mb-3">
+                <i class="fas fa-user-circle fa-5x text-secondary"></i>
+            </div>
+            <h4>{{ student.name }}</h4>
+            <p class="text-muted small">Adm: {{ student.reg_no }} | Univ: {{ student.univ_no or 'N/A' }}</p>
+            <hr>
+            <div class="text-start">
+                <p><strong>Father:</strong> {{ student.father_name or 'N/A' }}</p>
+                <p><strong>Mother:</strong> {{ student.mother_name or 'N/A' }}</p>
+                <p><strong>Gender:</strong> {{ student.gender or 'N/A' }}</p>
+                <p><strong>Blood Group:</strong> {{ student.blood_group or 'N/A' }}</p>
+                <p><strong>DOB:</strong> {{ student.date_of_birth or 'N/A' }}</p>
+                <hr>
+                <p><strong>Email:</strong> {{ student.email or 'N/A' }}</p>
+                <p><strong>Phone:</strong> {{ student.phone or 'N/A' }}</p>
+                <p><strong>Address:</strong> {{ student.address or 'N/A' }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Academic Performance History</h5>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs" id="semTabs">
+                    {% for sem in semesters %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if sem == 'S3' %}active{% endif %}" data-bs-toggle="tab" href="#tab-{{ sem }}">{{ sem }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="tab-content mt-4">
+                    {% for sem in semesters %}
+                    <div class="tab-pane fade {% if sem == 'S3' %}show active{% endif %}" id="tab-{{ sem }}">
+                        {% if sem in records %}
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6 class="text-muted small mb-1">Semester GPA</h6>
+                                    <h5 class="fw-bold text-primary">{{ records[sem].sgpa or '-' }}</h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6 class="text-muted small mb-1">Cumulative GPA</h6>
+                                    <h5 class="fw-bold text-success">{{ records[sem].cgpa or '-' }}</h5>
+                                </div>
+                            </div>
+                                <div class="col-md-12 mt-3">
+                                    <h6>Internal / Result Marks:</h6>
+                                    <table class="table table-bordered table-sm text-center">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th class="text-start">Subject Code</th>
+                                                <th>Series 1</th>
+                                                <th>Series 2</th>
+                                                <th>Internals</th>
+                                                <th>End Sem</th>
+                                                <th>Subject Att.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if records[sem].internal_marks_json %}
+                                                {% for sub, details in records[sem].internal_marks_json.items() %}
+                                                <tr>
+                                                    <td class="text-start">
+                                                        <span class="fw-bold">{{ sub }}</span><br>
+                                                        <small class="text-muted">{{ details.get('_label', '') }}</small>
+                                                    </td>
+                                                    {% if details is mapping %}
+                                                        <td>{{ details.get('series_1', '-') }}</td>
+                                                        <td>{{ details.get('series_2', '-') }}</td>
+                                                        <td>{{ details.get('internals', '-') }}</td>
+                                                        <td>
+                                                            {% set grade = details.get('end_sem', '-') %}
+                                                            {% if grade != '-' %}
+                                                                <span class="badge rounded-pill {% if grade in ['F', 'I', 'Absent', 'ABSENT'] %}bg-danger{% elif grade in ['S', 'A+', 'A'] %}bg-success{% else %}bg-primary{% endif %}" style="min-width: 30px;">
+                                                                    {{ grade }}
+                                                                </span>
+                                                            {% else %}
+                                                                <span class="text-muted">-</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{ details.get('attendance', '-') }}</td>
+                                                    {% else %}
+                                                        <td>-</td><td>-</td><td>-</td>
+                                                        <td><span class="badge bg-secondary">{{ details }}</span></td>
+                                                        <td>-</td>
+                                                    {% endif %}
+                                                </tr>
+                                                {% endfor %}
+                                            {% else %}
+                                                <tr><td colspan="6" class="text-muted">No detailed marks available.</td></tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-5 text-muted">
+                                <i class="fas fa-folder-open fa-2x mb-2"></i>
+                                <p>No data recorded for {{ sem }} yet.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

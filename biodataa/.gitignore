@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+
+# Database
+*.db
+biodata_v2.db
+
+# Uploaded Files
+uploads/
+!uploads/.gitkeep
+
+# Temporary/Debug Files
+debug*.json
+*.log
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store

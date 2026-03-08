@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-5 mx-auto">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white p-4 text-center">
+                <div class="mb-3">
+                    <i class="fas fa-user-graduate fa-4x"></i>
+                </div>
+                <h3>Welcome, {{ student.name }}</h3>
+                <p class="mb-0">{{ student.reg_no }}</p>
+            </div>
+            <div class="card-body p-4">
+                <form action="{{ url_for('update_profile') }}" method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Father's Name</label>
+                            <input type="text" name="father_name" class="form-control" value="{{ student.father_name or '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Mother's Name</label>
+                            <input type="text" name="mother_name" class="form-control" value="{{ student.mother_name or '' }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Gender</label>
+                            <select name="gender" class="form-select">
+                                <option value="">Select</option>
+                                <option value="Male" {% if student.gender == 'Male' %}selected{% endif %}>Male</option>
+                                <option value="Female" {% if student.gender == 'Female' %}selected{% endif %}>Female</option>
+                                <option value="Other" {% if student.gender == 'Other' %}selected{% endif %}>Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Blood Group</label>
+                            <input type="text" name="blood_group" class="form-control" value="{{ student.blood_group or '' }}" placeholder="e.g. O+">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Date of Birth</label>
+                        <input type="date" name="date_of_birth" class="form-control" value="{{ student.date_of_birth or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email Address</label>
+                        <input type="email" name="email" class="form-control" value="{{ student.email or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Mobile Number</label>
+                        <input type="text" name="phone" class="form-control" value="{{ student.phone or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Residential Address</label>
+                        <textarea name="address" class="form-control" rows="3">{{ student.address or '' }}</textarea>
+                    </div>
+                    <div class="d-grid shadow-sm">
+                        <button type="submit" class="btn btn-primary">Update Personal Details</button>
+                    </div>
+                </form>
+                <div class="mt-4 p-3 bg-light rounded">
+                    <small class="text-muted"><i class="fas fa-info-circle me-1"></i> Note: Academic marks and attendance can only be updated by the teacher/administrator.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

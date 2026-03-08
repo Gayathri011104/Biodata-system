@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">My Academic History</h2>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <ul class="nav nav-pills mb-4" id="pills-tab">
+            {% for sem in semesters %}
+            <li class="nav-item">
+                <button class="nav-link {% if sem == 'S3' %}active{% endif %}" data-bs-toggle="pill" data-bs-target="#p-{{ sem }}">{{ sem }}</button>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content">
+            {% for sem in semesters %}
+            <div class="tab-pane fade {% if sem == 'S3' %}show active{% endif %}" id="p-{{ sem }}">
+                {% if sem in records %}
+                    <div class="mb-4 d-flex gap-3">
+                        <div class="bg-light p-3 rounded shadow-sm border-start border-primary border-4">
+                            <small class="text-muted d-block">SGPA</small>
+                            <span class="h5 mb-0 fw-bold">{{ records[sem].sgpa or '-' }}</span>
+                        </div>
+                        <div class="bg-light p-3 rounded shadow-sm border-start border-success border-4">
+                            <small class="text-muted d-block">CGPA</small>
+                            <span class="h5 mb-0 fw-bold">{{ records[sem].cgpa or '-' }}</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th class="text-start">Subject Code</th>
+                                    <th>Series 1</th>
+                                    <th>Series 2</th>
+                                    <th>Internals</th>
+                                    <th>End Sem</th>
+                                    <th>Subject Att.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if records[sem].internal_marks_json %}
+                                    {% for sub, details in records[sem].internal_marks_json.items() %}
+                                    <tr>
+                                        <td class="text-start">
+                                            <span class="fw-bold">{{ sub }}</span><br>
+                                            <small class="text-muted">{{ details.get('_label', '') }}</small>
+                                        </td>
+                                        {% if details is mapping %}
+                                            <td>{{ details.get('series_1', '-') }}</td>
+                                            <td>{{ details.get('series_2', '-') }}</td>
+                                            <td>{{ details.get('internals', '-') }}</td>
+                                            <td>
+                                                {% set grade = details.get('end_sem', '-') %}
+                                                {% if grade != '-' %}
+                                                    <span class="badge rounded-pill {% if grade in ['F', 'I', 'Absent', 'ABSENT'] %}bg-danger{% elif grade in ['S', 'A+', 'A'] %}bg-success{% else %}bg-primary{% endif %}" style="min-width: 30px;">
+                                                        {{ grade }}
+                                                    </span>
+                                                {% else %}
+                                                    <span class="text-muted">-</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ details.get('attendance', '-') }}</td>
+                                        {% else %}
+                                            <td>-</td><td>-</td><td>-</td>
+                                            <td><span class="badge bg-secondary">{{ details }}</span></td>
+                                            <td>-</td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr><td colspan="6" class="text-muted">Details not available yet for this semester.</td></tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted italic">No data available for {{ sem }}.</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

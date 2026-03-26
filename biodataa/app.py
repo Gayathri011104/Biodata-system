@@ -140,15 +140,24 @@ from utils.parsers import process_academic_files
 # Each @app.route defines a URL and what happens when someone visits it.
 
 
-# ---------- HOME PAGE ----------
+# ---------- WELCOME PAGE ----------
 @app.route('/')
+@app.route('/welcome')
+def welcome():
+    """
+    Welcome page: Shows a beautiful landing page with entry points.
+    If logged in, redirects to dashboard.
+    """
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    return render_template('welcome.html')
+
+
+# ---------- HOME REDIRECT ----------
+@app.route('/home')
 def index():
-    """
-    Home page: If user is logged in, go to dashboard. Otherwise, go to login.
-    """
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
-    return redirect(url_for('dashboard'))
+    """Redirect home to welcome."""
+    return redirect(url_for('welcome'))
 
 
 # ---------- LOGIN PAGE ----------

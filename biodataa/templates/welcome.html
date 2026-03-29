@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .welcome-body {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        color: white;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    .welcome-container {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 10;
+    }
+
+    .hero-section {
+        text-align: center;
+        margin-bottom: 5rem;
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #60a5fa, #a855f7);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+        letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: #94a3b8;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .feature-card {
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 2.5rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        height: 100%;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(96, 165, 252, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(96, 165, 252, 0.4);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-card:hover::before {
+        opacity: 1;
+    }
+
+    .icon-box {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .card-text {
+        color: #94a3b8;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+    }
+
+    .btn-login {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        background: white;
+        color: #0f172a;
+        font-weight: 600;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-login:hover {
+        background: #f1f5f9;
+        transform: scale(1.05);
+    }
+
+    .floating-circles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+        filter: blur(60px);
+    }
+
+    .circle-1 {
+        width: 400px;
+        height: 400px;
+        top: -100px;
+        right: -100px;
+    }
+
+    .circle-2 {
+        width: 300px;
+        height: 300px;
+        bottom: -50px;
+        left: -50px;
+    }
+</style>
+
+<div class="welcome-body py-5">
+    <div class="floating-circles">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+    </div>
+
+    <div class="welcome-container">
+        <div class="hero-section animate-fade-in">
+            <h1 class="hero-title">Academic Biodata System</h1>
+            <p class="hero-subtitle">
+                A seamless and intelligent platform to manage academic records, monitor student progress, and streamline
+                data integration.
+            </p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-5 animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="feature-card landing-card" data-url="{{ url_for('login') }}">
+                    <div class="icon-box">
+                        <i class="fas fa-chalkboard-teacher text-white"></i>
+                    </div>
+                    <h3 class="card-title">Staff & Teachers</h3>
+                    <p class="card-text">
+                        Upload academic files, manage student profiles, monitor semester performance, and track
+                        attendance records efficiently.
+                    </p>
+                    <a href="{{ url_for('login') }}" class="btn-login">
+                        Access Portal <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-5 animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="feature-card landing-card" data-url="{{ url_for('login') }}">
+                    <div class="icon-box">
+                        <i class="fas fa-user-graduate text-white"></i>
+                    </div>
+                    <h3 class="card-title">Student Portal</h3>
+                    <p class="card-text">
+                        View your academic history, download your biodata records, check real-time attendance, and
+                        update your profile details.
+                    </p>
+                    <a href="{{ url_for('login') }}" class="btn-login">
+                        Student Login <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5 pt-5 animate-fade-in" style="animation-delay: 0.4s;">
+            <p class="text-muted small">Powered by Vidya Academy Portal &copy; 2024</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.landing-card').forEach(card => {
+        card.addEventListener('click', () => {
+            window.location.href = card.getAttribute('data-url');
+        });
+    });
+</script>
+{% endblock %}
